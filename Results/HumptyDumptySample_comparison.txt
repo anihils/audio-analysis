@@ -1,0 +1,31 @@
+Actual transcription:
+Alice didn't know what to say to this it wasn't at all like conversation she thought as he never said anything to her in fact his last remark was evidently addressed to a-a tree so she's stood and softly repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+
+Speech-To-text transcriptions of different audios:
+HumptyDumptySample0808.flac: Lots of background noise, not clear
+Alice didn't know what to say this it wasn't at all like conversation she thought and she never said anything to her in fact his last remark was evidently address to it 3 so she's doing and softly repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+
+HumptyDumptySample1116.flac: No background noise, clearer than last
+he dumped in his place again
+
+HumptyDumptySample1616.flac: No background noise, clearer than last
+Alice didn't know what to say to this it wasn't at all like conversation she thought as he never said anything to her in fact his last remark was evidently address to it a tree so she's doing softly repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+
+HumptyDumptySample2208.flac: Background noise(static), clear voice
+Alex didn't know what to say to this it wasn't at all like conversation she thought as he never said anything to her in fact his last remark was evidently address to it a tree so she's doing softly repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+
+HumptyDumptySample2216.flac: No background noise, clear voice
+Alice didn't know what to say to this it wasn't at all like conversation she thought as he never said anything to her in fact his last remark was evidently address to it a tree so she's doing softly repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+
+HumptyDumptySample4408.flac: Background noise, clear voice
+Alice didn't know what to say to this it wasn't at all like conversation she thought as he never said anything to her in fact his last remark was evidently address to it a tree so she's doing softly repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+
+HumptyDumptySample4408to16.flac: Background noise, clear loud voice
+Alice didn't know what to say to this it wasn't at all like conversation she thought as he never said anything to her in fact his last remark was evidently address to it a tree so she's doing softly repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+
+HumptyDumptySampleStereo.flac: No background noise, clear voice
+Alice didn't know what to say to this it wasn't at all like conversation she thought as he never said anything to her in fact his last remark was evidently address to it a tree so she's doing softly repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+
+HumptyDumptyUpSample4416.flac: Lots of background noise, unclear voice
+Alex didn't know what to say this it wasn't at all like conversation Tucson and he never said anything to her in fact his last remark was evidently address to us so she's doing sausage repeated to herself Humpty Dumpty sat on a wall Humpty Dumpty had a great fall all the king's horses and all the king's men couldn't put Humpty Dumpty in his place again
+

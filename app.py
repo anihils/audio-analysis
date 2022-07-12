@@ -3,14 +3,15 @@ import subprocess
 
 input_bucket = "gs://audio-analysis-input-bucket"
 input_folder = "input_files"
+output_folder = "transcripts"
 optimised_bucket = "gs://audio-analysis-optimised-bucket"
 
 # Instantiates a client
 client = speech.SpeechClient()
 
 # Writes all the files in a given bucket to a given file 
-def list_bucket_contents(bucket_uri, bucket_file_name):
-    file = open(bucket_file_name, "w")
+def list_bucket_contents(bucket_uri, bucket_contents_file_name):
+    file = open(bucket_contents_file_name, "w")
     subprocess.run(["gsutil", "ls", bucket_uri], stdout=file)
     file.close()
     return
@@ -22,27 +23,28 @@ def get_file_name(uri, bucket_name):
 
 # Run ffprobe to extract metadata of audio file
 # Can also be used to confirm audio metadata/successful conversion to .flac audio file
-# TODO: Add duration to metadata
+# TODO: 3 - Add duration to metadata
 def probe_audio(audio_file):
-    file = open("metadata.txt", "w")
+    metadata_file_name = "metadata.txt"
+    file = open(metadata_file_name, "w") # file destroyed in this function
     # Run ffprobe to extract audio information
     subprocess.run(["ffprobe", audio_file, "-hide_banner"], stderr=file)
     file.close()
     metadata = {}
 
-    with open("metadata.txt", "r") as file:
+    with open(metadata_file_name, "r") as file:
         for line in file.readlines():
             if "Stream" in line and "Audio:" in line: # Line containing format, sample_rate, and number of channels
                 parts = line.split("Audio: ")[1].split(',')
                 metadata['codec'] = parts[0].strip()
                 metadata['sample_rate'] = parts[1].strip().rstrip(" Hz")
                 metadata['channels'] = parts[2].strip()
-                print(line)
-                return metadata
+                break
+    subprocess.run(["rm", metadata_file_name])
     return metadata
 
 # Converts audio file to flac codec (probe for number of channels)
-# TODO: If metadata is empty send signal to transcribe
+# TODO: 3 - If metadata is empty send signal to transcribe
 def format_audio(gcs_uri):
 
     # 1) Download audio file from GCS into input_folder
@@ -84,21 +86,21 @@ def format_audio(gcs_uri):
         else: # No conversion needed: return same uri
             return {gcs_uri : num_channels}
 
-# TODO: Remove background noise and increase volume of speech
+# TODO: 2 - Remove background noise and increase volume of speech
 def optimise_audio(gcs_uri_flac):
     return 
 
 # Use Google Cloud's Speech-To-Text API to transcribe audio files over 1 minute
-# TODO: Write transcriptions to files in GCS
-# TODO: Create transcribe case for short audios (client.recognize)
-# TODO: Add support for multiple languages (Hindi, Tamil)
-def transcribe_long_audio(gcs_uri):
-    uri_channels = format_audio(gcs_uri)
-    gcs_uri_flac = list(uri_channels.keys())[0]
+# TODO: 1 - Write transcriptions to files in GCS
+# TODO: 2 - Create transcribe case for short audios (client.recognize)
+# TODO: 3 - Add support for multiple languages (Hindi, Tamil)
+def transcribe_long_audio(gcs_uri, output_file):
+    uri_channels = format_audio(gcs_uri) # convert to .flac file
+    gcs_uri_flac = list(uri_channels.keys())[0] # grab gcs_uri of converted file
     num_channels = uri_channels[gcs_uri_flac]
-    optimise_audio(gcs_uri_flac)
+    optimise_audio(gcs_uri_flac) # decrease background noise
 
-    print(gcs_uri_flac, " is optimised for transcription")
+    print(gcs_uri_flac, "is optimised for transcription")
 
     audio = speech.RecognitionAudio(uri=gcs_uri_flac)
 
@@ -114,25 +116,32 @@ def transcribe_long_audio(gcs_uri):
     operation = client.long_running_recognize(config=config, audio=audio)
     response = operation.result(timeout=90)
 
-    print('Transcript:')
+    transcript = open(output_file, "w")
     for result in response.results:
-        print("{}".format(result.alternatives[0].transcript))
+        transcript.write("{}\n\n".format(result.alternatives[0].transcript))
+    transcript.close()
 
-# TODO: Delete contents of given bucket
+# TODO: 3 - Delete contents of given bucket
 def clear_bucket(bucket_name):
     pass
 
 def transcribe_all():
-    list_bucket_contents(input_bucket, "bucket_contents.txt")
+    bucket_contents_file_name = "bucket_contents.txt"
+    list_bucket_contents(input_bucket, bucket_contents_file_name)
 
-    # Create new directory for temporarily storing audio files from storage bucket
+    # Create new directories for storing audio files from storage bucket and outputs
     subprocess.run(["mkdir", input_folder]) 
+    subprocess.run(["mkdir", output_folder]) 
 
-    with open("bucket_contents.txt", "r") as bucket:
+    with open(bucket_contents_file_name, "r") as bucket:
         for gcs_uri in bucket.readlines():
-            transcribe_long_audio(gcs_uri.strip())
+            file_name = get_file_name(gcs_uri, input_bucket)
+            transcript_file = output_folder + "/" + file_name.split('.')[0] + '.txt'
+            transcribe_long_audio(gcs_uri.strip(), transcript_file)
 
+    # Remove created files and folders
     subprocess.run(["rm", "-r", input_folder]) # delete folder created to temporarily store audios
+    subprocess.run(["rm", bucket_contents_file_name])
     clear_bucket(optimised_bucket)
 
 transcribe_all()
